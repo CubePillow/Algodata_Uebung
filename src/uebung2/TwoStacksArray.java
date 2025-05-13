@@ -1,11 +1,11 @@
 package uebung2;
 
-public class StackWithTwoArrays {
+public class TwoStacksArray {
     int topA;
     int topB;
     Object[] stack;
 
-    public StackWithTwoArrays(int capacity) {
+    public TwoStacksArray(int capacity) {
         topA = 0;
         topB = capacity-1;
         stack = new Object[capacity];
@@ -52,7 +52,7 @@ public class StackWithTwoArrays {
     }
 
     public boolean isFull() {
-        return topA == topB;
+        return topA == topB + 1;
     }
 
     public int getTopA() {
