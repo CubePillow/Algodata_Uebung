@@ -1,3 +1,5 @@
+package uebung2;
+
 public class StackArray implements Stack {
     int top;
     Object[] stack;
@@ -22,8 +24,9 @@ public class StackArray implements Stack {
             throw new RuntimeException("pop from empty stack");
         }
         top = top - 1;
-        return stack[top];
-
+        Object value = stack[top];
+        stack[top] = null;
+        return value;
     }
 
     @Override
@@ -47,8 +50,8 @@ public class StackArray implements Stack {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        for (int i = top; i >= 0; i--) {
-            sb.append(stack[i]);
+        for (int i = stack.length - 1; i >= 0; i--) {
+            sb.append(stack[i]).append("\n");
         }
         return sb.toString();
     }
