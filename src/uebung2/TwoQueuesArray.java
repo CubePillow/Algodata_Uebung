@@ -12,48 +12,46 @@ public class TwoQueuesArray {
         queue = new Object[n];
     }
 
-    public boolean isEmpty(boolean isStackA) {
-        return isStackA ? firstA == lastA : firstB == lastB;
+    public boolean isEmpty(boolean isQueueA) {
+        return isQueueA ? firstA == lastA : firstB == lastB;
     }
 
 
-    public boolean isFull(boolean isStackA) {
-        return isStackA ? (firstA == (lastA+1) % (queue.length/2)) : (firstB == (lastB+1) % (queue.length/2) + queue.length/2);
+    public boolean isFull(boolean isQueueA) {
+        return isQueueA ? (firstA == (lastA+1) % (queue.length/2)) : (firstB == (lastB+1) % (queue.length/2) + queue.length/2);
     }
 
 
-    public void enqueue(Object v, boolean isStackA) {
-        if (isStackA) {
+    public void enqueue(Object v, boolean isQueueA) {
+        if(isFull(isQueueA)){
+            String Queue = isQueueA?"QueueA":"QueueB";
+            throw new RuntimeException("enqueue to full " +  Queue);
+        }
+
+        if (isQueueA) {
             int next = (lastA+1) % (queue.length/2);
-            if (next == firstA) {
-                throw new RuntimeException("enqueue to full QueueArray A");
-            }
             queue[lastA] = v;
             lastA = next;
         }else{
             int next = (lastB+1) % (queue.length/2) + queue.length/2;
-            if (next == firstB) {
-                throw new RuntimeException("enqueue to full QueueArray B");
-            }
             queue[lastB] = v;
             lastB = next;
         }
     }
 
 
-    public Object dequeue(boolean isStackA) {
+    public Object dequeue(boolean isQueueA) {
+        if(isEmpty(isQueueA)){
+            String Queue = isQueueA? "QueueA":"QueueB";
+            throw new RuntimeException("dequeue from empty " + Queue);
+        }
+
         Object x;
-        if (isStackA) {
-            if (firstA == lastA) {
-                throw new RuntimeException("equeue from empty queue A");
-            }
+        if (isQueueA) {
             x = queue[firstA];
             queue[firstA] = null;
             firstA = (firstA+1) % (queue.length/2);
         }else {
-            if (firstB== lastB){
-                throw new RuntimeException("equeue from empty queue B");
-            }
             x = queue[firstB];
             queue[firstB] = null;
             firstB = (lastB+1) % (queue.length/2) + queue.length/2;
