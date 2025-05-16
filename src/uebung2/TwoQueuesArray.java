@@ -1,7 +1,8 @@
 package uebung2;
 
 public class TwoQueuesArray {
-    int firstA, lastA, firstB, lastB;
+    int firstA, lastA;
+    int firstB, lastB;
     Object[] queue;
 
     public TwoQueuesArray(int n) {
@@ -12,22 +13,21 @@ public class TwoQueuesArray {
         queue = new Object[n];
     }
 
+
     public boolean isEmpty(boolean isQueueA) {
-        return isQueueA ? firstA == lastA : firstB == lastB;
+        return isQueueA ? (firstA == lastA) : (firstB == lastB);
     }
 
-
     public boolean isFull(boolean isQueueA) {
-        return isQueueA ? (firstA == (lastA+1) % (queue.length/2)) : (firstB == (lastB+1) % (queue.length/2) + queue.length/2);
+        return isQueueA ? (firstA == (lastA+1) % (queue.length/2)): (firstB == (lastB+1) % (queue.length/2)+ queue.length/2);
     }
 
 
     public void enqueue(Object v, boolean isQueueA) {
-        if(isFull(isQueueA)){
-            String Queue = isQueueA?"QueueA":"QueueB";
-            throw new RuntimeException("enqueue to full " +  Queue);
+        if (isFull(isQueueA)) {
+            String QueueName = isQueueA ? "QueueA" : "QueueB";
+            throw new RuntimeException("enqueue to full " + QueueName);
         }
-
         if (isQueueA) {
             int next = (lastA+1) % (queue.length/2);
             queue[lastA] = v;
@@ -42,8 +42,8 @@ public class TwoQueuesArray {
 
     public Object dequeue(boolean isQueueA) {
         if(isEmpty(isQueueA)){
-            String Queue = isQueueA? "QueueA":"QueueB";
-            throw new RuntimeException("dequeue from empty " + Queue);
+            String QueueName = isQueueA ? "QueueA" : "QueueB";
+            throw new RuntimeException("equeue from empty " + QueueName);
         }
 
         Object x;
@@ -51,32 +51,17 @@ public class TwoQueuesArray {
             x = queue[firstA];
             queue[firstA] = null;
             firstA = (firstA+1) % (queue.length/2);
-        }else {
+        }else{
             x = queue[firstB];
             queue[firstB] = null;
-            firstB = (lastB+1) % (queue.length/2) + queue.length/2;
+            firstB = (firstB+1) % (queue.length/2) + queue.length/2;
         }
+
         return x;
     }
 
     public Object[] getQueue() {
         return queue;
-    }
-
-    public int getFirstA() {
-        return firstA;
-    }
-
-    public int getLastA() {
-        return lastA;
-    }
-
-    public int getFirstB() {
-        return firstB;
-    }
-
-    public int getLastB() {
-        return lastB;
     }
 
     @Override

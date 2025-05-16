@@ -5,18 +5,19 @@ public class TwoStacksArray {
     int topB;
     Object[] stack;
 
-    public TwoStacksArray(int capacity) {
+    public TwoStacksArray(int n) {
         topA = 0;
-        topB = capacity-1;
-        stack = new Object[capacity];
+        topB = n-1;
+        stack = new Object[n];
     }
 
+
     public void push(Object v, boolean isStackA) {
-        if (topA == topB +1) {
-            throw new RuntimeException("push to full Stack");
+        if(isFull()){
+            throw new RuntimeException("push to full StackArray");
         }
 
-        if (isStackA){
+        if(isStackA) {
             stack[topA] = v;
             topA = topA + 1;
         }else{
@@ -25,51 +26,37 @@ public class TwoStacksArray {
         }
     }
 
-    public Object pop(boolean isStackA) {
-        Object value;
 
-        if (isStackA){
-            if (topA == 0) {
-                throw new RuntimeException("pop from empty stack A");
-            }
+    public Object pop(boolean isStackA) {
+        if(isEmpty(isStackA)){
+            String StackName = isStackA ? "StackA" : "StackB";
+            throw new RuntimeException("pop from empty " +  StackName);
+        }
+
+        Object value;
+        if(isStackA){
             topA = topA - 1;
             value = stack[topA];
             stack[topA] = null;
         }else{
-            if (topB == stack.length - 1) {
-                throw new RuntimeException("pop from empty stack B");
-            }
             topB = topB + 1;
-            value = stack[topB];
-            stack[topB] = null;
+            value = stack[topA];
+            stack[topA] = null;
+
         }
+
         return value;
     }
 
 
     public boolean isEmpty(boolean isStackA) {
-        return (isStackA ? topA ==0 : topB == stack.length -1);
+        return isStackA?topA == 0 :topB == stack.length-1;
     }
 
     public boolean isFull() {
-        return topA == topB + 1;
+        return topA - topB == 1;
     }
 
-    public int getTopA() {
-        return topA;
-    }
-
-    public void setTopA(int topA) {
-        this.topA = topA;
-    }
-
-    public int getTopB() {
-        return topB;
-    }
-
-    public void setTopB(int topB) {
-        this.topB = topB;
-    }
 
     public Object[] getStack() {
         return stack;
@@ -83,4 +70,5 @@ public class TwoStacksArray {
         }
         return sb.toString();
     }
+
 }
